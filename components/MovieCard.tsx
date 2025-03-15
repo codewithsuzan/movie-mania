@@ -6,13 +6,13 @@ import { icons } from '@/constants/icons'
 const MovieCard = ({id,poster_path,title,vote_average,release_date}:Movie) => {
   return (
     <Link
-    href={`/movies/{$id}`} asChild
+    href={`/movies/${id}`} asChild
     >
         <TouchableOpacity className='w-[30%]'>
             <Image
             source={{
                 uri:
-                poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}`:'https://placeholde.co/600x400/1a1a1a/ffffff.png'
+                poster_path ? `https://image.tmdb.org/t/p/w500${poster_path}`:`https://placehold.co/500x300/000000/ffffff?text=No+Poster`
             }}
             className='w-full h-52 rounded-lg'
             resizeMode='cover'

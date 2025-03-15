@@ -19,17 +19,24 @@ const search = () => {
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
 
   useEffect(() => {
-    
-    const timeoutId = setTimeout(async () => {
+    const delayDebounce = setTimeout(() => {
       if (searchQuery.trim()) {
-        await loadMovies();
-        if(movies?.length>0 && movies?.[0]) await updateSearchCount(searchQuery,movies[0])
+        loadMovies(); // triggers API call
       } else {
-        reset();
+        reset(); // reset state if empty
       }
-    }, 500);
-    return () => clearTimeout(timeoutId);
+    }, 500); // debounce by 500ms
+  
+    return () => clearTimeout(delayDebounce);
   }, [searchQuery]);
+  
+  // Trigger count update only when movies are fetched
+  useEffect(() => {
+    if (searchQuery.trim() && movies?.length > 0) {
+      updateSearchCount(searchQuery.trim().toLowerCase(), movies[0]);
+    }
+  }, [movies]);
+  
 
   return (
     <View className="flex-1 bg-primary">
